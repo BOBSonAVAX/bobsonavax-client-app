@@ -26,6 +26,7 @@
     "react-dom": "^18.2",
     "react-router-dom": "^6.21.1",
     "react-scripts": "^5.0.1",
+    "react-spinners": "^0.13.8",
     "stream": "^0.0.2",
     "typescript": "^4.7.2",
     "url": "latest",
