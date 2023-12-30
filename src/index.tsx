@@ -2,10 +2,11 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./styles/globals.css";
-import { ThirdwebProvider, metamaskWallet, rainbowWallet, en, } from "@thirdweb-dev/react";
+import { ThirdwebProvider, metamaskWallet, rainbowWallet, en } from "@thirdweb-dev/react";
 import { Avalanche } from "@thirdweb-dev/chains";
 
 const activeChain = "avalanche";
+
 
 
 const container = document.getElementById("root");
@@ -21,7 +22,6 @@ root.render(
         rainbowWallet({ recommended: true }),
       ]}
       supportedChains={[Avalanche]}
-
     >
       <App />
     </ThirdwebProvider>
