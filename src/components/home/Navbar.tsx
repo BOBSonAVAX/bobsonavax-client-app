@@ -24,7 +24,6 @@ const Navbar: React.FC = () => {
 
     const [open, setOpen] = useState(false);
     const [openBuy, setOpenBuy] = useState(false);
-    const [openApp, setOpenApp] = useState(false);
     const [placement, setPlacement] = useState<DrawerProps['placement']>('left');
 
 
