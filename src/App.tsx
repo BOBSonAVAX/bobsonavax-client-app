@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/home/Navbar";
 import ScrollToTop from "./components/home/ScrollToTop";
 import Home from "./components/home/Home";
-import Governance from "./components/home/Governance";
+import Governance from "./components/Governance";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { useSigner } from "@thirdweb-dev/react";
 import { Signer } from "ethers";
@@ -47,3 +47,5 @@ export default function App() {
 
   );
 }
+
+
