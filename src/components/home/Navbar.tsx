@@ -9,7 +9,7 @@ import twitter from "../images/X_logo_2023_(white).png"
 import tg from "../images/tg.png"
 import { GithubOutlined, MenuOutlined, CloseOutlined } from "@ant-design/icons"
 import { ConfigProvider, Modal, Drawer, DrawerProps } from 'antd';
-
+import Marquee from "react-fast-marquee";
 
 
 
@@ -102,10 +102,10 @@ const Navbar: React.FC = () => {
                 },
             }}
         >
-            <div className="w-full flex justify-between items-center bg-[#ee8c3a] h-24 px-4 py-2 md:px-20 text-black">
-                <MenuOutlined className="mr-4 text-2xl cursor-pointer text-black lg:hidden" onClick={showDrawer} />
+            <div className="w-full   flex justify-between items-center bg-black h-24 px-4 py-2 md:px-20 text-black">
+                <MenuOutlined className="mr-4 text-2xl cursor-pointer text-white lg:hidden" onClick={showDrawer} />
                 <img src={logo} alt="BOBS Logo" className=" cursor-pointer shadow-2xlr w-14 h-14  rounded-full border-2 border-black -bottom-10 md:-bottom-16 left-10 md:left-24 lg:left-60 lg:-bottom-24 hover:rotate-90 ease-in-out duration-300"></img>
-                <div className=" w-full  px-5 hidden lg:flex  gap-5 font-semibold text-lg justify-center">
+                <div className=" w-full  px-5 hidden lg:flex  gap-5 font-semibold text-lg justify-center text-white">
                     <button onClick={goHome} className="hover:text-white ease-in-out duration-300">Home</button>
                     <button onClick={goToGov} className="hover:text-white ease-in-out duration-300">Governance</button>
                     <button className="hover:text-white ease-in-out duration-300" onClick={showModal}>Buy</button>
@@ -156,6 +156,10 @@ const Navbar: React.FC = () => {
                 </div>
 
             </div>
+
+            <Marquee className="bg-green-600">
+                If you ain't holding $BOBS, then what are you holding?
+            </Marquee>
 
 
             <Modal

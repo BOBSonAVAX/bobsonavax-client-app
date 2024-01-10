@@ -1,9 +1,9 @@
 import { useAddress, SmartContract, useSigner } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
-import { GOV_CONTRACT_ADDY, CONTRACT_ADDRESS_BOBS } from "../../addresses/Addresses";
-import bigBobsGov from "../../contracts/bigBobsGov.json"
-import bobs from "../../contracts/bobs.json"
-import SdkInterface from "../../interfaces/Sdk.interface";
+import { GOV_CONTRACT_ADDY, CONTRACT_ADDRESS_BOBS } from "../addresses/Addresses";
+import bigBobsGov from "../contracts/bigBobsGov.json"
+import bobs from "../contracts/bobs.json"
+import SdkInterface from "../interfaces/Sdk.interface";
 import { HashLoader } from "react-spinners";
 import { notification, Input, Modal, ConfigProvider } from "antd";
 import { BigNumber, ethers } from "ethers";
