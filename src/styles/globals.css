@@ -50,3 +50,29 @@ body {
 .css-162agw7 {
   display: none;
 }
+
+.buycomp {
+  background-image: url("../components/images/buypicsmall.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+
+
+@media (min-width:1200px) {
+
+
+  .buycomp {
+    background-image: url("../components/images/buypiclarge.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: contain;
+
+  }
+
+
+
+
+}
