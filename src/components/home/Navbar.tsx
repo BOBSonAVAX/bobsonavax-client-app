@@ -9,7 +9,7 @@ import twitter from "../images/X_logo_2023_(white).png"
 import tg from "../images/tg.png"
 import { GithubOutlined, MenuOutlined, CloseOutlined } from "@ant-design/icons"
 import { ConfigProvider, Modal, Drawer, DrawerProps } from 'antd';
-
+import Marquee from "react-fast-marquee";
 
 
 
@@ -156,6 +156,10 @@ const Navbar: React.FC = () => {
                 </div>
 
             </div>
+
+            <Marquee className="bg-green-600">
+                If you ain't holding $BOBS, then what are you holding?
+            </Marquee>
 
 
             <Modal
