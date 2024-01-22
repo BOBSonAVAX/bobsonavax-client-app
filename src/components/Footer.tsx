@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                             </div>
                         </a>
 
-                        <a href="https://github.com/BOBSonAVAX" target="_blank" rel="noreferrer">
+                        <a href="https://docs.bobsonavax.com" target="_blank" rel="noreferrer">
                             <div className="  bg-black rounded-md flex justify-center items-center">
 
                                 <BookOutlined className="text-3xl py-1 text-white" />

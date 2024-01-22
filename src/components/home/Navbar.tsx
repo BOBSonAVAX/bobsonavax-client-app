@@ -107,6 +107,9 @@ const Navbar: React.FC = () => {
                 <div className=" w-full  px-5 hidden lg:flex  gap-5 font-semibold text-lg justify-center text-white">
                     <button onClick={goHome} className="hover:text-white ease-in-out duration-300">Home</button>
                     <button onClick={goToGov} className="hover:text-white ease-in-out duration-300">Governance</button>
+                    <a className="text-white" href="https://docs.bobsonavax.com/" target="_blank" rel="noreferrer">
+                        <button className="hover:text-white ease-in-out duration-300">Docs</button>
+                    </a>
                     <button className="hover:text-white ease-in-out duration-300" onClick={showModal}>Buy</button>
                 </div>
                 <div className="text-xs w-full  flex items-center justify-end">
@@ -204,8 +207,9 @@ const Navbar: React.FC = () => {
                         <button className="hover:text-white text-start ease-in-out duration-300" onClick={goHome}>Home</button>
                         <button onClick={goToGov} className=" text-start hover:text-white ease-in-out duration-300">Governance</button>
                         <button className="hover:text-white text-start ease-in-out duration-300" onClick={showModal}>Buy</button>
-                        <p className=" text-start text-white ease-in-out duration-300 mt-20">Coming soon ...</p>
-                        <button className=" text-start ease-in-out duration-300">Docs</button>
+                        <a className="text-white" href="https://docs.bobsonavax.com/" target="_blank" rel="noreferrer">
+                            <button className="hover:text-white text-start ease-in-out duration-300">Docs</button>
+                        </a>
                     </div>
                     <div className="flex w-full items-center justify-center">
                         <div className=" flex justify-center items-center  gap-4 mr-4">
