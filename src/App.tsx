@@ -6,6 +6,7 @@ import Governance from "./components/Governance";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { useSigner } from "@thirdweb-dev/react";
 import { Signer } from "ethers";
+import Empty from "./components/Empty";
 
 
 export default function App() {
@@ -34,7 +35,7 @@ export default function App() {
 
         <Routes>
           <Route path='/' element={<Home />}></Route>
-          <Route path='/governance' element={sdk ? <Governance sdk={sdk} /> : null}></Route>
+          <Route path='/governance' element={sdk ? <Governance sdk={sdk} /> : <Empty />}></Route>
 
         </Routes>
 

@@ -1,4 +1,4 @@
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+import { ConnectWallet } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
 import { Avalanche } from "@thirdweb-dev/chains";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import dexscreener from "../images/dexscreener.jpg"
 import twitter from "../images/X_logo_2023_(white).png"
 import tg from "../images/tg.png"
 import { GithubOutlined, MenuOutlined, CloseOutlined } from "@ant-design/icons"
-import { ConfigProvider, Modal, Drawer, DrawerProps } from 'antd';
+import { ConfigProvider, Modal, Drawer } from 'antd';
 import Marquee from "react-fast-marquee";
 
 
@@ -19,12 +19,11 @@ const Navbar: React.FC = () => {
     const navigate = useNavigate();
 
     const [modalS, setModalS] = useState('compact');
-    const address = useAddress();
+    //const address = useAddress();
 
 
     const [open, setOpen] = useState(false);
     const [openBuy, setOpenBuy] = useState(false);
-    const [placement, setPlacement] = useState<DrawerProps['placement']>('left');
 
 
     const showModal = () => {
@@ -117,7 +116,7 @@ const Navbar: React.FC = () => {
                         modalTitle={"@BOBSonAvax"}
                         auth={{ loginOptional: false }}
                         switchToActiveChain={true}
-                        modalSize={modalS == "compact" ? "compact" : "wide"}
+                        modalSize={modalS === "compact" ? "compact" : "wide"}
                         style={{ color: "white", backgroundColor: "black", fontSize: "small" }}
                         welcomeScreen={() =>
                             <div style={{ height: '100%', justifyContent: "center", alignItems: "center", width: "100%", display: "flex", flexDirection: "column", textAlign: "center" }}>
@@ -193,11 +192,11 @@ const Navbar: React.FC = () => {
 
             <Drawer
                 title="MENU"
-                placement={placement}
+                placement="left"
                 closable={true}
                 onClose={onClose}
                 open={open}
-                key={placement}
+                key={"left"}
                 closeIcon={<CloseOutlined style={{ color: 'white' }} />}
             >
                 <div className="w-full h-full flex flex-col justify-between">

@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./styles/globals.css";
-import { ThirdwebProvider, metamaskWallet, rainbowWallet, en } from "@thirdweb-dev/react";
+import { ThirdwebProvider, metamaskWallet, rainbowWallet, en, coreWallet, walletConnect } from "@thirdweb-dev/react";
 import { Avalanche } from "@thirdweb-dev/chains";
 
 const activeChain = "avalanche";
@@ -19,6 +19,8 @@ root.render(
       locale={en()}
       supportedWallets={[
         metamaskWallet({ recommended: true }),
+        coreWallet({ recommended: true }),
+        walletConnect({ recommended: true }),
         rainbowWallet({ recommended: true }),
       ]}
       supportedChains={[Avalanche]}

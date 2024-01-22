@@ -9,15 +9,6 @@ import { notification, Input, Modal, ConfigProvider } from "antd";
 import { BigNumber, ethers } from "ethers";
 
 
-
-
-
-
-
-
-
-
-
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const Governance: React.FC<SdkInterface> = ({ sdk }) => {
@@ -32,6 +23,7 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
     const [userBigBobsBalance, setUserBigBobsBalance] = useState<string>("");
     const [bobsToBarrel, setBobsToBarrel] = useState<string>('')
     const [wenStored, setWenStored] = useState<string>('')
+    const [claimable, setClaimable] = useState(0);
 
 
     let [govContract, setGovContract] = useState<SmartContract>();
@@ -40,6 +32,7 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
     let [loadingContract, setLoadingContract] = useState<boolean>(false);
     let [loadingDeposit, setLoadingDeposit] = useState<boolean>(false);
     let [loadingWithdraw, setLoadingWithdraw] = useState<boolean>(false);
+    let [loadingClaim, setLoadingClaim] = useState<boolean>(false);
     let [depositedBobsAmount, setDepositedBobsAmount] = useState<string>('')
 
 
@@ -50,7 +43,7 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
         const year = date.getFullYear().toString();
 
-        return `${day}:${month}:${year}`;
+        return `${month}/${day}/${year}`;
     }
 
 
@@ -126,17 +119,16 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
 
                         if (govContract) {
 
-                            let claimBigBobs = await govContract.call("claim", [])
+                            let claimBigBobs = true; //await govContract.call("claim", [])
 
 
-                            if (claimBigBobs && claimBigBobs.receipt) {
-                                openNotificationWithIcon('success', "Successfully claimed your bigBobs", `txHash: ${claimBigBobs?.receipt.transactionHash}`)
+                            if (claimBigBobs) { // && claimBigBobs.receipt
+                                //openNotificationWithIcon('success', "Successfully claimed your bigBobs", `txHash: ${claimBigBobs?.receipt.transactionHash}`)
 
-                                let userBigBobs = await govContract.call("balanceOf", [depositor])
+                                //let userBigBobs = await govContract.call("balanceOf", [depositor])
 
-                                setUserBigBobsBalance(ethers.utils.formatUnits(userBigBobs, "ether"))
+                                //setUserBigBobsBalance(ethers.utils.formatUnits(userBigBobs, "ether"))
                                 let barrel = await govContract.call("addressToBarrel", [depositor])
-
                                 setBobsToBarrel(ethers.utils.formatUnits(barrel[0], "ether"))
 
 
@@ -145,12 +137,12 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
                                 setUserBobsBalance(ethers.utils.formatUnits(userBobsBalance, "ether"))
 
 
-                                if (userBigBobs == 0) {
-                                    setWenStored("-")
-                                } else {
-                                    let date = formatTimestamp(parseInt(barrel[1]))
-                                    setWenStored(date)
-                                }
+                                // if (userBigBobs == 0) {
+                                //     setWenStored("-")
+                                // } else {
+                                //     let date = formatTimestamp(parseInt(barrel[1]))
+                                //     setWenStored(date)
+                                // }
                             }
 
 
@@ -184,10 +176,14 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
 
                 setWenStored("-")
 
+                setClaimable(0);
+
                 let bobsData = await sdk.getContract(CONTRACT_ADDRESS_BOBS, bobs);
                 setBobsContract(bobsData);
+
                 let userBobsBalance = await bobsData.call("balanceOf", [address])
                 setUserBobsBalance(ethers.utils.formatUnits(userBobsBalance, "ether"))
+
                 setLoadingWithdraw(false)
             }
 
@@ -195,6 +191,40 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
         } catch (error: any) {
             openNotificationWithIcon('error', "Error during approval", `${error}`)
             setLoadingWithdraw(false)
+        }
+
+    }
+
+    const claim = async () => {
+
+        try {
+            setLoadingClaim(true)
+            let claim = await govContract?.call("claim", []);
+            if (claim.receipt) {
+                openNotificationWithIcon('success', "Successfully Claimed", `txHash: ${claim?.receipt.transactionHash}`)
+
+                let barrel = await govContract?.call("addressToBarrel", [address])
+                setBobsToBarrel(ethers.utils.formatUnits(barrel[0], "ether"))
+
+                let date = formatTimestamp(parseInt(barrel[1]))
+                setWenStored(date)
+
+                let bobsData = await sdk.getContract(CONTRACT_ADDRESS_BOBS, bobs);
+                setBobsContract(bobsData);
+                
+                let userBigBobs = await govContract?.call("balanceOf", [address])
+                setUserBigBobsBalance(ethers.utils.formatUnits(userBigBobs, "ether"))
+
+                let userClaimable = await govContract?.call("claimableForUser", [address])
+                setClaimable(Number(ethers.utils.formatUnits(userClaimable, "ether")))
+
+                setLoadingClaim(false)
+            }
+
+
+        } catch (error: any) {
+            openNotificationWithIcon('error', "Error during approval", `${error}`)
+            setLoadingClaim(false)
         }
 
     }
@@ -217,15 +247,18 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
 
                     let userBigBobs = await govData.call("balanceOf", [address])
                     setUserBigBobsBalance(ethers.utils.formatUnits(userBigBobs, "ether"))
+
+                    let userClaimable = await govData.call("claimableForUser", [address])
+                    setClaimable(Number(ethers.utils.formatUnits(userClaimable, "ether")))
+
                     let barrel = await govData.call("addressToBarrel", [address])
-
                     setBobsToBarrel(ethers.utils.formatUnits(barrel[0], "ether"))
-
-                    if (userBigBobs == 0) {
+                    
+                    if (Number(userBigBobs) === Number(0)) {
                         setWenStored("-")
                     } else {
                         let date = formatTimestamp(parseInt(barrel[1]))
-                        setWenStored(date)
+                        setWenStored(date);
                     }
 
 
@@ -295,9 +328,6 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
                                             <p className="text-lg">80850</p>
                                         </div>
 
-
-
-
                                         <div className=" text-end">
                                             <p>your $bigBOBS</p>
                                             <p className="text-lg">{userBigBobsBalance}</p>
@@ -308,14 +338,37 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
                                             <p className="text-lg">{parseFloat(userBobsBalance).toFixed(2)}</p>
                                         </div>
 
-                                        <div className=" text-end">
-                                            <p>your staked $BOBS</p>
-                                            <p className="text-lg">{parseFloat(bobsToBarrel).toFixed(2)}</p>
+                                        <div className=" text-end w-full grid grid-cols-12">
+                                            <div className="col-start-1 col-span-10">
+                                                <p>your staked $BOBS</p>
+                                                <p className="text-lg">{parseFloat(bobsToBarrel).toFixed(2)}</p>
+                                            </div>
+                                            <div className="p-1 col-start-11">
+                                                <button disabled={parseFloat(bobsToBarrel) === 0} onClick={withdraw} className="bg-[#ee8c3a] p-1  w-15 h-8 flex justify-center items-center  text-[14px] rounded-md text-black hover:text-white duration-300 ease-in-out">
+                                                    {
+                                                        loadingWithdraw ? (<div className=""><HashLoader size={"15px"} color="white" /></div>) : (<>Withdraw</>)
+                                                    }
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <div className=" text-end">
                                             <p>wen staked</p>
                                             <p className="text-lg">{wenStored}</p>
+                                        </div>
+
+                                        <div className=" text-end w-full grid grid-cols-12">
+                                            <div className="col-start-1 col-span-10">
+                                                <p>$bigBOBS claimable</p>
+                                                <p className="text-lg">{claimable}</p>
+                                            </div>
+                                            <div className="p-1 col-start-11">
+                                                <button disabled={claimable === 0} onClick={claim} className="bg-[#ee8c3a] p-1  w-15 h-8 flex justify-center items-center  text-[14px] rounded-md text-black hover:text-white duration-300 ease-in-out">
+                                                    {
+                                                        loadingClaim ? (<div className=""><HashLoader size={"15px"} color="white" /></div>) : (<>Claim</>)
+                                                    }
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -365,14 +418,6 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
                                                     </button>
                                                 }
 
-                                                {
-                                                    + userBigBobsBalance > 0 &&
-                                                    <button onClick={withdraw} className="bg-[#ee8c3a]   w-20 h-8 flex justify-center items-center  text-[14px] rounded-md text-black hover:text-white duration-300 ease-in-out">
-                                                        {
-                                                            loadingWithdraw ? (<div className=""><HashLoader size={"20px"} color="white" /></div>) : (<>Withdraw</>)
-                                                        }
-                                                    </button>
-                                                }
                                             </div>
                                         </div>
 
