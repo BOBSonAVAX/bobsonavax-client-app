@@ -7,6 +7,7 @@ import SdkInterface from "../interfaces/Sdk.interface";
 import { HashLoader } from "react-spinners";
 import { notification, Input, Modal, ConfigProvider } from "antd";
 import { BigNumber, ethers } from "ethers";
+import Footer from "./Footer";
 
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
@@ -454,6 +455,7 @@ const Governance: React.FC<SdkInterface> = ({ sdk }) => {
                     </div>
                 </Modal>
             </div >
+            <Footer />
         </ConfigProvider>
     )
 }
